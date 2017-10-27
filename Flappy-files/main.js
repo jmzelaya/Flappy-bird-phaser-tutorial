@@ -25,14 +25,26 @@ var mainState = {
 
       //Call 'jump' function when spaceKey is pressed down
       var spaceKey = game.input.keyboard.addkey(
-                      Phaser.keyboard.SPACEBAR);
+                      Phaser.Keyboard.SPACEBAR);
       spaceKey.onDown.add(this.jump, this);
   },
 
   //Contains game logic
   update: function () {
-
+      //if bird's y axis is below OR above screen
+      //Call 'restartGame' function
+      if(this.bird.y < 0 || this.bird.y > 490)
+         this.restartGame();
   },
+
+  jump: function() {
+    //Add vertical velocity to the bird (y-axis)
+    this.bird.body.velocity.y = -350;
+  },
+
+  restartGame: function () {
+    game.state.start('main');
+  }
 
 };
 
