@@ -25,12 +25,13 @@ var mainState = {
       this.bird.body.gravity.y = 1000;
 
       //Call 'jump' function when spaceKey is pressed down
-      // var spaceKey = game.input.keyboard.addkey(
-      //                 Phaser.Keyboard.SPACEBAR);
-      // spaceKey.onDown.add(this.jump, this);
-      //
-      // //Create an empty group
-      // this.pipes = game.add.group();
+        var spaceKey = game.input.keyboard.addKey(
+                        Phaser.Keyboard.SPACEBAR);
+        spaceKey.onDown.add(this.jump, this);
+
+
+       //Create an empty group
+       this.pipes = game.add.group();
   },
 
   //Contains game logic
