@@ -32,6 +32,9 @@ var mainState = {
 
        //Create an empty group
        this.pipes = game.add.group();
+
+       this.timer = game.time.events.loop(1500, this.addRowOfPipes, this);
+
   },
 
   //Contains game logic
