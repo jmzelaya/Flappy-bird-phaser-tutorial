@@ -80,13 +80,13 @@ var mainState = {
 
       for(var i = 0; i < 8; i++)
           if(i != hole && i != hole + 1)
-            this.addOnePipe(400, i * 60 + 10);
+            this.addOnePipe(600, i * 60 + 10);
   },
 };
 
 //Initializes Phaser         |
 //    |         creates 400px by 490px game
-var game = new Phaser.Game(400, 490);
+var game = new Phaser.Game(600, 490);
 
 
 //                 Add 'mainState'
