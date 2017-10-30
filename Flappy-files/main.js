@@ -30,10 +30,19 @@ var mainState = {
         spaceKey.onDown.add(this.jump, this);
 
 
-       //Create an empty group
+       //Create an empty group of pipes
        this.pipes = game.add.group();
 
+       //Create a timer which calles the "addRowOfPipes" function
+       //every 1.5 seconds
        this.timer = game.time.events.loop(1500, this.addRowOfPipes, this);
+
+       //Set starting score to 0
+       this.score = 0;
+
+       //labelScore will display the score text
+       this.labelScore = game.add.text(20, 20, "0",
+            { font: "30px Arial", fill: '#ffffff' });
 
   },
 
@@ -43,6 +52,11 @@ var mainState = {
       //Call 'restartGame' function
       if(this.bird.y < 0 || this.bird.y > 490)
          this.restartGame();
+
+      //Add overlap (collision) physics
+      game.physics.arcade.overlap(
+          //when the bird overlaps with a pipe restartGame
+          this.bird, this.pipes, this.restartGame, null, this);
   },
 
   jump: function() {
@@ -79,8 +93,18 @@ var mainState = {
       var hole = Math.floor(Math.random() * 5) + 1;
 
       for(var i = 0; i < 8; i++)
+          //If i is NOT equal to hole (defined above)
+          //AND i is NOT equal to hole plus 1
           if(i != hole && i != hole + 1)
+            //Then add a pipe at this location
+            //                    vvvvvvvvv
             this.addOnePipe(600, i * 60 + 10);
+
+      //When a new pipe is created,
+      //increase the score by 1
+      this.score += 1;
+      //Update labelScore with cuurent score
+      this.labelScore.text = this.score;
   },
 };
 
