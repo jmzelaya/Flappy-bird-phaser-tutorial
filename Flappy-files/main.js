@@ -44,6 +44,8 @@ var mainState = {
        this.labelScore = game.add.text(20, 20, "0",
             { font: "30px Arial", fill: '#ffffff' });
 
+       this.bird.anchor.setTo(-0.2, 0.5);
+
   },
 
   //Contains game logic
@@ -57,11 +59,22 @@ var mainState = {
       game.physics.arcade.overlap(
           //when the bird overlaps with a pipe restartGame
           this.bird, this.pipes, this.restartGame, null, this);
+
+      if (this.bird.angle < 20)
+          this.bird.angle += 1;
   },
 
   jump: function() {
     //Add vertical velocity to the bird (y-axis)
     this.bird.body.velocity.y = -350;
+    //Create animation on the bird
+    var animation = game.add.tween(this.bird);
+
+    //Change angle of bird to -20 degrees in 100 milliseconds
+    animation.to({angle: -20}, 100);
+
+    //Start animation
+    animation.start();
   },
 
   restartGame: function () {
@@ -103,7 +116,7 @@ var mainState = {
       //When a new pipe is created,
       //increase the score by 1
       this.score += 1;
-      //Update labelScore with cuurent score
+      //Update labelScore with current score
       this.labelScore.text = this.score;
   },
 };
