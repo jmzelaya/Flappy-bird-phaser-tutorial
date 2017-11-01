@@ -3,6 +3,7 @@ var mainState = {
   preload: function () {
       game.load.image('bird', 'assets/bird.png');
       game.load.image('pipe', 'assets/pipe.png');
+      game.load.audio('jump', 'assets/jump.wav');
   },
 
   //Called after preload
@@ -46,6 +47,8 @@ var mainState = {
 
        this.bird.anchor.setTo(-0.2, 0.5);
 
+       this.jumpSound = game.add.audio('jump');
+
   },
 
   //Contains game logic
@@ -58,7 +61,7 @@ var mainState = {
       //Add overlap (collision) physics
       game.physics.arcade.overlap(
           //when the bird overlaps with a pipe restartGame
-          this.bird, this.pipes, this.restartGame, null, this);
+          this.bird, this.pipes, this.hitPipe, null, this);
 
       if (this.bird.angle < 20)
           this.bird.angle += 1;
@@ -75,6 +78,11 @@ var mainState = {
 
     //Start animation
     animation.start();
+
+    if(this.bird.alive === false)
+       return;
+
+    this.jumpSound.play();
   },
 
   restartGame: function () {
@@ -119,6 +127,20 @@ var mainState = {
       //Update labelScore with current score
       this.labelScore.text = this.score;
   },
+
+  hitPipe() {
+    if(this.bird.alive === false)
+      return;
+
+      this.bird.alive = false;
+
+      game.time.events.remove(this.timer);
+
+      this.pipes.forEach(function(p){
+          p.body.velocity.x = 0;
+      }, this);
+
+  }
 };
 
 //Initializes Phaser         |
